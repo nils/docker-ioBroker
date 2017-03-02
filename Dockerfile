@@ -1,14 +1,14 @@
 FROM mhart/alpine-node:4
 
-# inspired by https://github.com/MehrCurry/docker-iobroker
+# inspired by https://github.com/Locke/docker-iobroker
 
-MAINTAINER André Wolski <andre@dena-design.de>
+MAINTAINER Bluefox <dogafox@gmail.com>
 
 RUN apk add --no-cache bash python build-base
 
 RUN mkdir -p /opt/iobroker/
 WORKDIR /opt/iobroker/
-RUN npm install iobroker --unsafe-perm && echo $(hostname) > .install_host
+RUN npm install iobroker --unsafe-perm
 ADD scripts/run.sh run.sh
 RUN chmod +x run.sh
 VOLUME /opt/iobroker/
