@@ -24,10 +24,13 @@ spec:
       containers:
       - name: iobroker
         image: angelnu/iobroker-arm
+        updateStrategy:
+          type: RollingUpdate
         ports:
-        - containerPort: 8081
-        - containerPort: 8082
-        - containerPort: 8084
+        - containerPort: 8081 #original admin
+        - containerPort: 8082 #original vis
+        - containerPort: 8084 #original io sockets
+        - containerPort: 8087 #original SimpleAPI
         - containerPort: 6500
         - containerPort: 6501
         - containerPort: 6502
@@ -35,11 +38,15 @@ spec:
         - containerPort: 6504
         - containerPort: 6505
         - containerPort: 30000
+        - containerPort: 30081 #Reconfigured admin
+        - containerPort: 30082 #Reconfigured vis
+        - containerPort: 30087 #Reconfigured SimpleAPI
         livenessProbe:
           tcpSocket:
-            port: 8081
-          initialDelaySeconds: 60000
+            port: 30081
+          initialDelaySeconds: 600 # 10 minutes
           timeoutSeconds: 10
+          failureThreshold: 12 # 2 minutes
         volumeMounts:
         - mountPath: /opt/iobroker/iobroker-data
           name: iobroker-volume
@@ -69,19 +76,50 @@ metadata:
 spec:
   ports:
   - name: admin
-    port: 8081
-    targetPort: 8081
+    port: 30081
+    targetPort: 30081
     nodePort: 30081
   - name: vis
-    port: 8082
-    targetPort: 8082
+    port: 30082
+    targetPort: 30082
     nodePort: 30082
   - name: iosocket
-    port: 8084
-    targetPort: 8084
+    port: 30084
+    targetPort: 30084
     nodePort: 30084
+  - name: api
+    port: 30087
+    targetPort: 30087
+    nodePort: 30087
   - name: rfdclient
     port: 30000
+  - name: admin-org
+    port: 8081
+    targetPort: 8081
+  - name: vis-org
+    port: 8082
+    targetPort: 8082
+  - name: iosocket-org
+    port: 8084
+    targetPort: 8084
   type: NodePort
   selector:
     app: iobroker
+
+---
+
+# ------------------- Ingress ------------------- #
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: iobroker
+spec:
+  rules:
+  - host: iobroker.angelnu.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: iobroker
+          servicePort: vis
