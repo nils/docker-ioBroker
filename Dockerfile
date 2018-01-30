@@ -1,4 +1,6 @@
-FROM node:8-alpine
+#FROM node:8-alpine
+#Image broken (1.6.2018)
+FROM angelnu/iobroker-arm
 
 # inspired by https://github.com/iobroker/docker-iobroker
 MAINTAINER Vegetto <git@angelnu.com>
@@ -11,7 +13,8 @@ RUN apk add --no-cache \
       bash python build-base \
       git \
       avahi-dev \
-      make gcc g++ python linux-headers udev
+      make gcc g++ python linux-headers udev \
+      tzdata
 
 # Install base iobroker
 RUN mkdir -p /opt/iobroker/
@@ -24,7 +27,7 @@ RUN mv package.json package.json.org && \
     cp -a adapters2install.json package.json && \
     npm install --production --save --unsafe-perm --prefix /opt/iobroker
 
-ADD scripts/run.sh run.sh
+ADD scripts/* /usr/local/bin/
 
 #Delete data folder so it gets generated on the first boot
 #This is needed in order to associate the instances to the correct hostname
@@ -39,5 +42,5 @@ RUN rm -rf iobroker-data/*
 VOLUME /opt/iobroker/iobroker-data
 
 EXPOSE 8081 8082 8083 8084
-ENTRYPOINT ["./run.sh"]
+ENTRYPOINT ["run.sh"]
 CMD ["start"]

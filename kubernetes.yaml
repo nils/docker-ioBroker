@@ -24,20 +24,13 @@ spec:
       containers:
       - name: iobroker
         image: angelnu/iobroker-arm
-        updateStrategy:
-          type: RollingUpdate
         ports:
         - containerPort: 8081 #original admin
         - containerPort: 8082 #original vis
         - containerPort: 8084 #original io sockets
         - containerPort: 8087 #original SimpleAPI
-        - containerPort: 6500
-        - containerPort: 6501
-        - containerPort: 6502
-        - containerPort: 6503
-        - containerPort: 6504
-        - containerPort: 6505
-        - containerPort: 30000
+        - containerPort: 30000 #hrpc.0
+        - containerPort: 30001 #hrpc.1
         - containerPort: 30081 #Reconfigured admin
         - containerPort: 30082 #Reconfigured vis
         - containerPort: 30087 #Reconfigured SimpleAPI
@@ -91,8 +84,11 @@ spec:
     port: 30087
     targetPort: 30087
     nodePort: 30087
-  - name: rfdclient
+  - name: rfdclient0
     port: 30000
+  - name: rfdclient1
+    port: 30001
+    nodePort: 30001
   - name: admin-org
     port: 8081
     targetPort: 8081
