@@ -23,7 +23,7 @@ spec:
       #hostNetwork: true
       containers:
       - name: iobroker
-        image: angelnu/iobroker-arm
+        image: angelnu/iobroker-arm:latest
         ports:
         - containerPort: 8081 #original admin
         - containerPort: 8082 #original vis

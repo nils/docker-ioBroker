@@ -1,6 +1,6 @@
-#FROM node:8-alpine
+FROM arm32v7/node:8-slim
 #Image broken (1.6.2018)
-FROM angelnu/iobroker-arm
+#FROM angelnu/iobroker-arm
 
 # inspired by https://github.com/iobroker/docker-iobroker
 MAINTAINER Vegetto <git@angelnu.com>
@@ -9,12 +9,18 @@ MAINTAINER Vegetto <git@angelnu.com>
 # git: needed to download beta adapters
 # avahi-dev: needed by mdns (iobroker.chromecast)
 # make gcc g++ python linux-headers udev: needed by serialport (iobroker.discovery) - https://www.npmjs.com/package/serialport#platform-support
-RUN apk add --no-cache \
-      bash python build-base \
+#RUN apk add --no-cache \
+#      build-base avahi-dev linux-headers \
+RUN apt-get update && apt-get install -y \
+      libavahi-compat-libdnssd-dev linux-headers-armmp vim \
+      bash python \
       git \
-      avahi-dev \
-      make gcc g++ python linux-headers udev \
-      tzdata
+      make gcc g++ python udev \
+      tzdata && \
+      apt-get -y clean all
+
+#Update npmjs
+RUN npm install -g npm@latest
 
 # Install base iobroker
 RUN mkdir -p /opt/iobroker/
