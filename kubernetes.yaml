@@ -18,6 +18,8 @@ spec:
       labels:
         app: iobroker
     spec:
+      nodeSelector:
+        beta.kubernetes.io/arch: arm
       containers:
       - name: iobroker
         image: angelnu/iobroker-arm:latest
