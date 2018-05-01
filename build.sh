@@ -44,7 +44,6 @@ if [ "$BUILD" = true ] ; then
   cd ..
 
   #Build docker
-  BASE=alpine
   if [ -n "$TARGET_IMG" ]; then
     BASE="$TARGET_IMG/$BASE"
   fi
