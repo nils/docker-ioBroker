@@ -16,7 +16,7 @@ MAINTAINER Vegetto <git@angelnu.com>
 #RUN apk add --no-cache \
 #      build-base avahi-dev linux-headers \
 RUN apt-get update && apt-get install -y \
-      libavahi-compat-libdnssd-dev linux-headers-armmp vim \
+      libavahi-compat-libdnssd-dev 'linux-headers-*' vim \
       bash python \
       git \
       make gcc g++ python udev \
