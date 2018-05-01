@@ -1,6 +1,10 @@
-FROM arm32v7/node:8-slim
-#Image broken (1.6.2018)
-#FROM angelnu/iobroker-arm
+ARG BASE=node:8-slim
+FROM $BASE
+
+ARG arch=arm
+ENV ARCH=$arch
+
+COPY qemu/qemu-$ARCH-static* /usr/bin/
 
 # inspired by https://github.com/iobroker/docker-iobroker
 MAINTAINER Vegetto <git@angelnu.com>
