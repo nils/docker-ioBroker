@@ -16,7 +16,7 @@ MAINTAINER Vegetto <git@angelnu.com>
 #RUN apk add --no-cache \
 #      build-base avahi-dev linux-headers \
 RUN apt-get update && apt-get install -y \
-      libavahi-compat-libdnssd-dev linux-headers-armmp vim \
+      libavahi-compat-libdnssd-dev 'linux-headers-*' vim \
       bash python \
       git \
       make gcc g++ python udev \
@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
       apt-get -y clean all
 
 #Update npmjs
+RUN npm config set unsafe-perm true #See https://github.com/npm/uid-number/issues/3
 RUN npm install -g npm@latest
 
 # Install base iobroker
