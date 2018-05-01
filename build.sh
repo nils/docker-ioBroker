@@ -13,7 +13,7 @@ cd $(dirname $0)
 : ${ARCHS:=""}
 
 #good defaults
-: ${BASE:="node:8-slim"}
+: ${BASE:="node:10"}
 : ${REPO:="angelnu/iobroker"}
 : ${QEMU_VERSION:="v2.11.1"}
 : ${ARCH_TAG:="$TAG-$DOCKER_ARCH"}
