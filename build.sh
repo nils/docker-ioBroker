@@ -16,7 +16,7 @@ cd $(dirname $0)
 : ${BASE:="node:10.0"}
 : ${REPO:="angelnu/iobroker"}
 : ${QEMU_VERSION:="v2.11.1"}
-: ${ARCH_TAG:="$TAG-$DOCKER_ARCH"}
+: ${ARCH_TAG:="${TAG}-${DOCKER_ARCH}"}
 
 
 ###############################
