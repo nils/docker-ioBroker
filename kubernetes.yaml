@@ -10,8 +10,6 @@ spec:
   # changing replicas value will require a manual etcdctl member remove/add
   # command (remove before decreasing and add after increasing)
   replicas: 1
-  updateStrategy:
-    type: OnDelete
   template:
     metadata:
       name: iobroker
@@ -22,7 +20,11 @@ spec:
         beta.kubernetes.io/arch: arm
       containers:
       - name: iobroker
-        image: angelnu/iobroker-arm:latest
+        image: angelnu/iobroker:latest
+        # command:
+        #   - sh
+        #   - -c
+        #   - while [ 1 ]; do sleep 10;done
         ports:
         - containerPort: 8081 #original admin
         - containerPort: 8082 #original vis
