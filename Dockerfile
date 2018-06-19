@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
       bash python \
       git \
       make gcc g++ python udev \
+      unzip sudo libudev-dev \
       tzdata && \
       apt-get -y clean all
 
